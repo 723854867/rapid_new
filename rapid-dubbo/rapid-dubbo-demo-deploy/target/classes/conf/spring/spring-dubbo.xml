@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<dubbo:application name="demo-provider"/>
+	
+	<dubbo:registry address="zookeeper://101.37.30.26:2181?backup=101.37.30.26:2182,101.37.30.26:2183" file="E:/data/cache/dubbo/registries/demo-provider.cache"/>
+	
+	<dubbo:protocol name="dubbo" port="20080" serialization="kyro" optimizer="org.btkj.pojo.SerializationOptimizerImpl" />
+	
+	<dubbo:provider retries="1" timeout="roundrobin" loadbalance="roundrobin" version="1.0"/>
+	
+	<dubbo:service interface="org.rapid.dubbo.demo.api.DemoService" ref="demoService" />
+</beans>
