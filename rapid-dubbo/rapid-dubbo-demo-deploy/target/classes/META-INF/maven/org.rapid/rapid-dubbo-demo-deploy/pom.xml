@@ -20,6 +20,12 @@
 			<artifactId>rapid-dubbo-demo-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.rapid</groupId>
+			<artifactId>rapid-dao</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.codehaus.janino</groupId>

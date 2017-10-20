@@ -9,9 +9,12 @@
 	
 	<dubbo:registry address="${dubbo.registry.address}" file="${dubbo.registry.file}"/>
 	
+	<!-- 
 	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}" serialization="kyro" optimizer="org.btkj.pojo.SerializationOptimizerImpl" />
+	 -->
+	<dubbo:protocol name="${dubbo.protocol.name}" port="${dubbo.protocol.port}"/>
 	
-	<dubbo:provider retries="${dubbo.provider.retries}" timeout="${dubbo.provider.timeout}" loadbalance="${dubbo.provider.timeout}" version="${dubbo.provider.version}"/>
+	<dubbo:provider retries="${dubbo.provider.retries}" timeout="${dubbo.provider.timeout}" loadbalance="${dubbo.provider.loadbalance}" version="${dubbo.provider.version}"/>
 	
 	<dubbo:service interface="org.rapid.dubbo.demo.api.DemoService" ref="demoService" />
 </beans>

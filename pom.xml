@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.rapid</groupId>
@@ -12,21 +13,34 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<maven-war-plugin.version>3.1.0</maven-war-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 
 		<junit.version>4.12</junit.version>
+		<jedis.version>2.9.0</jedis.version>
 		<janino.version>3.0.7</janino.version>
 		<zkclient.version>0.9</zkclient.version>
 		<logback.version>1.2.3</logback.version>
+		<jackson.version>2.9.1</jackson.version>
 		<netty.version>3.10.6.Final</netty.version>
+		<commons-io.version>2.5</commons-io.version>
+		<classmate.version>1.3.4</classmate.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
 		<zookeeper.version>3.4.10</zookeeper.version>
 		<spring.version>4.3.11.RELEASE</spring.version>
 		<javassist.version>3.21.0-GA</javassist.version>
+		<commons-codec.version>1.10</commons-codec.version>
 		<jul-to-slf4j.version>1.7.25</jul-to-slf4j.version>
+		<validation.version>1.1.0.Final</validation.version>
+		<commons-pool2.version>2.4.2</commons-pool2.version>
 		<jcl-over-slf4j.version>1.7.25</jcl-over-slf4j.version>
+		<jboss-logging.version>3.3.1.Final</jboss-logging.version>
 		<log4j-over-slf4j.version>1.7.25</log4j-over-slf4j.version>
+		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+		<commons-fileupload.version>1.3.3</commons-fileupload.version>
+		<logback-ext-spring.version>0.1.4</logback-ext-spring.version>
+		<hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
 	</properties>
 
 	<dependencyManagement>
@@ -85,6 +99,17 @@
 					<exclusion>
 						<groupId>org.slf4j</groupId>
 						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.logback-extensions</groupId>
+				<artifactId>logback-ext-spring</artifactId>
+				<version>${logback-ext-spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -170,6 +195,60 @@
 					<exclusion>
 						<groupId>org.springframework</groupId>
 						<artifactId>spring-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-beans</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-aop</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-expression</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-web</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -279,6 +358,7 @@
 				</exclusions>
 			</dependency>
 
+			<!-- util -->
 			<dependency>
 				<groupId>org.codehaus.janino</groupId>
 				<artifactId>janino</artifactId>
@@ -288,6 +368,116 @@
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>${javassist.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+
+			<!-- web -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javax.servlet-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- serialization -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-annotations</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- JSR validator -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.validation</groupId>
+						<artifactId>validation-api</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jboss.logging</groupId>
+						<artifactId>jboss-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.fasterxml</groupId>
+						<artifactId>classmate</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${validation.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.logging</groupId>
+				<artifactId>jboss-logging</artifactId>
+				<version>${jboss-logging.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml</groupId>
+				<artifactId>classmate</artifactId>
+				<version>${classmate.version}</version>
+			</dependency>
+
+			<!-- dao -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.commons</groupId>
+						<artifactId>commons-pool2</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -334,6 +524,8 @@
 
 	<modules>
 		<module>rapid-dubbo</module>
-    <module>rapid-util</module>
-  </modules>
+		<module>rapid-util</module>
+		<module>rapid-web</module>
+		<module>rapid-dao</module>
+	</modules>
 </project>
