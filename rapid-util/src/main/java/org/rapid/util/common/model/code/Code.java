@@ -12,7 +12,9 @@ public enum Code implements ICode {
 	
 	UPLOAD_SIZE_EXCEEDED(3, "result.code.upload.size.exceeded"),
 	
-	UNSUPPORTED_HTTP_METHOD(4, "result.code.unsupported.http.method");
+	UNSUPPORTED_HTTP_METHOD(4, "result.code.unsupported.http.method"),
+	
+	UNSUPPORTED_HTTP_CONTENT_TYPE(5, "result.code.unsupported.http.content.type");;
 	
 	private int value;
 	private String desc;

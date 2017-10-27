@@ -18,6 +18,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -85,6 +86,18 @@ public class GlobalExceptionHandler {
 	@ResponseBody
 	public Result<Void> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
 		return _validatorError(ex.getBindingResult());
+	}
+	
+	/**
+	 * 不支持的 HTTP contentType
+	 * 
+	 * @param ex
+	 * @return
+	 */
+	@ResponseBody
+	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+	public Result<String> unsupportedMediaTypeHandler(HttpMediaTypeNotSupportedException ex) { 
+		return new Result<String>(Code.UNSUPPORTED_HTTP_CONTENT_TYPE, ex.getContentType().toString());
 	}
 	
 	/**
