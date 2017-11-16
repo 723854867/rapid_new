@@ -2,7 +2,13 @@ package org.rapid.util.common.serializer;
 
 import org.rapid.util.common.Consts;
 
+import com.google.gson.Gson;
+
 public interface SerializeUtil {
+	
+	class GsonUtil {
+		public static final Gson GSON = new Gson();
+	}
 
 	class RedisUtil {
 		public static final byte[] encode(Object value) {

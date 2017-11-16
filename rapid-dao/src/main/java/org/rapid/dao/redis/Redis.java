@@ -38,10 +38,11 @@ public class Redis {
 	 * @param lifeTime 验证码有效时长，单位毫秒
 	 * @param countMaxinum 验证码最大获取次数
 	 * @param countLifetTime 验证码次数生命周期(超过该时间没有获取验证码，则验证码次数 key 会被删除，也就是说验证码次数会被清零)，单位毫秒
+	 * @param interval 两次获取验证码之间的时间间隔：在该时间之内再次获取会提示验证码获取太频繁
 	 * @return 0 - 表示成功；-1 - 表示获取验证码获取太频繁，-2 - 表示验证码获取次数上限
 	 */
-	public long captchaObtain(String captchaKey, String countKey, String captcha, long lifeTime, long countMaxinum, long countLifetTime) {
-		return invoke(DefaultLuaCmd.CAPTCHA_OBTAIN, captchaKey, countKey, captcha, lifeTime, countMaxinum, countLifetTime);
+	public long captchaObtain(String captchaKey, String countKey, String captcha, long lifeTime, long countMaxinum, long countLifetTime, int interval) {
+		return invoke(DefaultLuaCmd.CAPTCHA_OBTAIN, captchaKey, countKey, captcha, lifeTime, countMaxinum, countLifetTime, interval);
 	}
 	
 	/**

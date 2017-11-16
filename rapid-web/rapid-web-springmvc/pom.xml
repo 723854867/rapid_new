@@ -17,6 +17,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.rapid</groupId>
+			<artifactId>rapid-web-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.logback-extensions</groupId>
 			<artifactId>logback-ext-spring</artifactId>
 		</dependency>

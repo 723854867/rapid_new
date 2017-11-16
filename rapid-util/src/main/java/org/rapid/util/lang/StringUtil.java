@@ -4,10 +4,21 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.rapid.util.common.Consts;
 
 public class StringUtil {
 
 	private static Random UUID;
+	
+	public static final String EMPTY = "";
+	
+	/**
+	 * 驼峰表示法
+	 */
+	public static final Pattern CAMEL = Pattern.compile("[A-Z]([a-z\\d]+)?");
 	
 	static {
 		SecureRandom secureRandom = new SecureRandom();
@@ -67,4 +78,24 @@ public class StringUtil {
 		sb.append(string.substring(pos));
 		return sb.toString();
 	}
+	
+	/**
+	 * 驼峰转下划线
+	 * 
+	 * @param line
+	 * @return
+	 */
+	public static final String camel2Underline(String line){
+		if(!StringUtil.hasText(line))
+        	return line;
+        line = String.valueOf(line.charAt(0)).toUpperCase().concat(line.substring(1));
+        StringBuilder builder = new StringBuilder();
+        Matcher matcher = CAMEL.matcher(line);
+        while (matcher.find()) {
+            String word = matcher.group();
+            builder.append(word.toLowerCase());
+            builder.append(matcher.end() == line.length() ? StringUtil.EMPTY : Consts.SYMBOL_UNDERLINE);
+        }
+        return builder.toString();
+    }
 }

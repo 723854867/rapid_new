@@ -6,4 +6,8 @@
 	<bean class="org.rapid.util.common.Language">
 		<property name="locale" value="${locale}" />
 	</bean>
+	
+	<bean id="cors" class="org.rapid.web.springmvc.controller.internals.CorsFilter">
+		<!-- 此处就可以注入 spring 的bean 了 -->
+	</bean>
 </beans>

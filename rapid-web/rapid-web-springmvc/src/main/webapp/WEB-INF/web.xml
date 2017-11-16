@@ -21,6 +21,7 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+	<!-- 这种 filter 中不能注入 spring 的bean，如果要能够注入 spring 的bean 需要使用 DelegatingFilterProxy 让spring 来管理 tomcat 的filter 
 	<filter>
 		<filter-name>cors</filter-name>
 		<filter-class>org.rapid.web.springmvc.controller.internals.CorsFilter</filter-class>
@@ -29,8 +30,29 @@
 		<filter-name>cors</filter-name>
 		<url-pattern>/api/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- 
+	-->
+	<!-- 此处配置了 DelegatingFilterProxy 然后在 spring 的 父容器中配置我们想要配置的真实 filter，注意不是在 spring 的dispatche.xml中配置
+	必须在主容器中配置才可以 -->
+	<filter>
+		<filter-name>filter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<!-- 如果不配置该参数，则 filter-name 必须和真实 filter 的 bean id 一样，否则会找不到 -->
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>cors</param-value>
+		</init-param>
+		<!-- 该参数默认为false，表示不参与 filter 的生命周期，也就是说 真实 filter 的 init 和 destory 方法其实是没用的，如果想要完全和servlet的filter
+		功能一样，则这里还要配置该参数为 true -->
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<servlet>
 		<servlet-name>api</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -44,28 +66,11 @@
 		<servlet-name>api</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
-	 -->
-	 <servlet>
-		<servlet-name>api</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:conf/spring/spring-web.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<!-- 
-	<servlet-mapping>
-		<servlet-name>api</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-	 -->
-	<servlet-mapping>
-		<servlet-name>api</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-	
-	<!-- 如果使用 welcome-file-list 来作为默认的 controller 则必须要再新增一个 servlet-mapping，同时注意 welcome-file 中的路径不能以 / 开头，而 url-pattern 必须以 / 开头 -->
+	<!-- <servlet-mapping> <servlet-name>api</servlet-name> <url-pattern>/</url-pattern> 
+		</servlet-mapping> -->
+
+	<!-- 如果使用 welcome-file-list 来作为默认的 controller 则必须要再新增一个 servlet-mapping，同时注意 
+		welcome-file 中的路径不能以 / 开头，而 url-pattern 必须以 / 开头 -->
 	<servlet-mapping>
 		<servlet-name>api</servlet-name>
 		<url-pattern>/admin/login</url-pattern>

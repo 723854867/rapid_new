@@ -7,7 +7,9 @@ import org.rapid.util.common.model.message.Result;
 
 public interface Consts {
 
-	final Charset UTF_8				= Charset.forName("UTF-8");
+	final Charset UTF_8						= Charset.forName("UTF-8");
+	
+	final String SYMBOL_UNDERLINE			= "_";
 	
 	interface Results {
 		Result<Void> PARAM_ERROR					= new Result<Void>(Code.PARAM_ERROR);
