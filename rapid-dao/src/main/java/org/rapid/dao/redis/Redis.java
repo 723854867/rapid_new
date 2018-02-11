@@ -1,10 +1,10 @@
 package org.rapid.dao.redis;
 
-import java.io.IOException;
+import javax.annotation.Resource;
 
 import org.rapid.util.common.Callback;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.util.Pool;
@@ -14,20 +14,13 @@ import redis.clients.util.Pool;
  * 
  * @author lynn
  */
+@Component
 public class Redis {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Redis.class);
-
-	private Pool<Jedis> pool;
+	@Resource
 	private LuaFiber luaFiber;
-	
-	public Redis() {
-		try {
-			this.luaFiber = new LuaFiber(this);
-		} catch (IOException e) {
-			logger.error("Lua scrip load failure, system will closed...", e);
-		}
-	}
+	@Autowired(required = false)
+	private Pool<Jedis> jedisPool;
 	
 	/**
 	 * 获取验证码
@@ -42,7 +35,7 @@ public class Redis {
 	 * @return 0 - 表示成功；-1 - 表示获取验证码获取太频繁，-2 - 表示验证码获取次数上限
 	 */
 	public long captchaObtain(String captchaKey, String countKey, String captcha, long lifeTime, long countMaxinum, long countLifetTime, int interval) {
-		return invoke(DefaultLuaCmd.CAPTCHA_OBTAIN, captchaKey, countKey, captcha, lifeTime, countMaxinum, countLifetTime, interval);
+		return this.luaFiber.invoke(LuaCmd.CAPTCHA_OBTAIN, captchaKey, countKey, captcha, lifeTime, countMaxinum, countLifetTime, interval);
 	}
 	
 	/**
@@ -53,12 +46,8 @@ public class Redis {
 	 * @return
 	 */
 	public boolean delIfEquals(String key, String value) {
-		long flag = invoke(DefaultLuaCmd.DEL_IF_EQUALS, key, value);
+		long flag = this.luaFiber.invoke(LuaCmd.DEL_IF_EQUALS, key, value);
 		return flag == 1;
-	}
-	
-	public <T> T invoke(LuaCmd cmd, Object... params) {
-		return luaFiber.invoke(cmd, cmd.keyNum(), params);
 	}
 	
 	/**
@@ -70,14 +59,10 @@ public class Redis {
 	<T> T invoke(Callback<Jedis, T> invoke) {
 		Jedis jedis = null;
 		try {
-			jedis = pool.getResource();
+			jedis = jedisPool.getResource();
 			return invoke.invoke(jedis);
 		} finally {
 			jedis.close();
 		}
-	}
-	
-	public void setPool(Pool<Jedis> pool) {
-		this.pool = pool;
 	}
 }

@@ -11,5 +11,5 @@ import java.io.Serializable;
  */
 public interface Unique<ID> extends Serializable {
 
-	ID getId();
+	ID id();
 }

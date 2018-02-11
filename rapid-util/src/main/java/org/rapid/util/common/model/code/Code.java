@@ -1,6 +1,7 @@
 package org.rapid.util.common.model.code;
 
-import org.rapid.util.common.Language;
+import org.rapid.util.common.SpringContextUtil;
+import org.rapid.util.common.bootstrap.Rapid;
 
 public enum Code implements ICode {
 
@@ -19,18 +20,18 @@ public enum Code implements ICode {
 	private int value;
 	private String desc;
 	
-	private Code(int value, String langKey) {
+	private Code(int value, String code) {
 		this.value = value;
-		this.desc = Language.get(langKey);
+		this.desc = SpringContextUtil.getBean("rapid", Rapid.class).language().get(code);
 	}
 	
 	@Override
-	public Integer getId() {
+	public Integer id() {
 		return this.value;
 	}
 	
 	@Override
 	public String desc() {
-		return this.desc;
+		return this.desc; 
 	}
 }

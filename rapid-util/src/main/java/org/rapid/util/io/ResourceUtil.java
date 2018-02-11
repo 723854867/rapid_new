@@ -2,15 +2,19 @@ package org.rapid.util.io;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.NoSuchFileException;
+import java.util.Properties;
 
+import org.rapid.util.common.Consts;
 import org.rapid.util.common.model.enums.Protocol;
 import org.rapid.util.lang.StringUtil;
 import org.rapid.util.reflect.ClassUtil;
@@ -88,7 +92,7 @@ public class ResourceUtil {
         return new URL(Protocol.JAR.value() + jarPath + "!" + entry).openStream();
 	}
 	
-	public static final byte[] read(Class<?> clazz, String name) throws IOException { 
+	public static final byte[] readBuffer(Class<?> clazz, String name) throws IOException { 
 		BufferedInputStream in = null;
 		byte[] buffer = null;
 		try {
@@ -100,5 +104,32 @@ public class ResourceUtil {
 				in.close();
 		}
 		return buffer;
+	}
+	
+	public static Properties loadProperties(Class<?> clazz, String name) throws IOException {
+		InputStream in = clazz.getResourceAsStream(name);
+		if (null == in)
+			throw new FileNotFoundException(name);
+		try {
+			Properties properties = new Properties();
+			properties.load(new InputStreamReader(in, Consts.UTF_8));
+			return properties;
+		} finally {
+			in.close();
+		}
+	}
+	
+	public static Properties loadProperties(String name) throws NoSuchFileException, IOException {
+		File file = getFile(name);
+		InputStream in = null;
+		try {
+			Properties properties = new Properties();
+			in = new FileInputStream(file);
+			properties.load(in);
+			return properties;
+		} finally {
+			if (null != in)
+				in.close();
+		}
 	}
 }

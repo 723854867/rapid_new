@@ -1,56 +1,66 @@
 package org.rapid.dao.redis;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.rapid.dao.Dao;
-import org.rapid.dao.Entity;
-import org.rapid.dao.EntityBuilder;
+import org.rapid.dao.Query;
+import org.rapid.util.common.model.Unique;
+import org.rapid.util.common.serializer.Serializer;
 
-public class RedisDao<KEY, ENTITY extends Entity<KEY, ?>, BUILDER extends EntityBuilder<KEY, ?>> implements Dao<KEY, ENTITY, BUILDER> {
+public class RedisDao<KEY, ENTITY extends Unique<KEY>> implements Dao<KEY, ENTITY> {
 
 	@Resource
 	private Redis redis;
+	private Serializer serializer;
 	
 	public RedisDao() {
 	}
-	
+
 	@Override
 	public void insert(ENTITY entity) {
+	}
+
+	@Override
+	public void batchInsert(Collection<ENTITY> entities) {
 		
 	}
 
 	@Override
 	public ENTITY getByKey(KEY key) {
+		return null;
+	}
+
+	@Override
+	public Map<KEY, ENTITY> getByKeys(Collection<KEY> keys) {
+		return null;
+	}
+
+	@Override
+	public Map<KEY, ENTITY> query(Query query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Map<KEY, ENTITY> getByProperties(BUILDER builder) {
-		// TODO Auto-generated method stub
-		return null;
+	public int update(ENTITY entity) {
+		return 0;
 	}
 
 	@Override
-	public void update(ENTITY entity) {
-		// TODO Auto-generated method stub
-		
+	public int batchUpdate(Map<KEY, ENTITY> entities) {
+		return 0;
 	}
 
 	@Override
-	public void deleteByKey(KEY key) {
-		// TODO Auto-generated method stub
-		
+	public int deleteByKey(KEY key) {
+		return 0;
 	}
 
 	@Override
-	public void deleteByProperties(BUILDER builder) {
-		
-	}
-	
-	public void setRedis(Redis redis) {
-		this.redis = redis;
+	public int deleteByKeys(Collection<KEY> keys) {
+		return 0;
 	}
 }

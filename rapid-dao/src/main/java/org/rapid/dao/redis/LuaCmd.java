@@ -1,23 +1,24 @@
 package org.rapid.dao.redis;
 
-/**
- * Lua 脚本指令
- * 
- * @author Lynn
- */
-public interface LuaCmd {
-
-	/**
-	 * lua 脚本需要的 key 数
-	 * 
-	 * @return
-	 */
-	int keyNum();
+public enum LuaCmd implements ILuaCmd {
 	
 	/**
-	 * 该指令对应的 lua 脚本内容
-	 * 
-	 * @return
+	 * 获取验证码
 	 */
-	byte[] script();
+	CAPTCHA_OBTAIN {
+		@Override
+		public int keyNum() {
+			return 2;
+		}
+	},
+	
+	/**
+	 * 如果相等则删除，否则什么都不做
+	 */
+	DEL_IF_EQUALS {
+		@Override
+		public int keyNum() {
+			return 1;
+		}
+	};
 }

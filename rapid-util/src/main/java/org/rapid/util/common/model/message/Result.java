@@ -15,12 +15,12 @@ public class Result<T> implements Serializable {
 	public Result() {}
 	
 	public Result(ICode code) {
-		this.code = code.getId();
+		this.code = code.id();
 		this.desc = code.desc();
 	}
 	
 	public Result(ICode code, T attach) {
-		this.code = code.getId();
+		this.code = code.id();
 		this.desc = code.desc();
 		this.attach = attach;
 	}
